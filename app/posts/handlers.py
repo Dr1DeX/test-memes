@@ -2,7 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from app.dependency import get_post_service
+from app.posts.posts_dependency import get_post_service
 from app.posts.extension import PostNotFoundException
 from app.posts.schema import PostSchema
 from app.posts.service import PostsService
