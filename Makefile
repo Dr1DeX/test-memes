@@ -1,0 +1,2 @@
+install:
+	poetry add ${LIB}
