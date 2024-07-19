@@ -6,3 +6,6 @@ migrate-create:
 
 migrate-apply:
 	alembic upgrade head
+
+run:
+	poetry run uvicorn app.main:app --host localhost --port 8000 --reload --env-file ${ENV}
