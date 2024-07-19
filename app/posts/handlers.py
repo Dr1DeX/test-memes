@@ -35,3 +35,13 @@ async def get_post(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=e.detail
         )
+
+
+@router.delete(
+    '/{post_id}'
+)
+async def delete_post(
+        post_service: Annotated[PostsService, Depends(get_post_service)],
+        post_id: int
+):
+    return await post_service.delete_post(post_id=post_id)
