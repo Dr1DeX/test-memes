@@ -1,5 +1,8 @@
 from dataclasses import dataclass
+from typing import Sequence
 
+from app.posts.extension import PostNotFoundException
+from app.posts.models import Posts
 from app.posts.schema import PostSchema
 from app.posts.repository import PostsRepository
 
@@ -9,6 +12,13 @@ class PostsService:
     post_repository: PostsRepository
 
     async def get_posts(self) -> list[PostSchema]:
-        posts = await self.post_repository.get_posts()
-        posts_schema = [PostSchema.model_validate(post) for post in posts]
+        posts: Sequence[Posts] = await self.post_repository.get_posts()
+        posts_schema: list[PostSchema] = [PostSchema.model_validate(post) for post in posts]
         return posts_schema
+
+    async def get_post(self, post_id: int) -> PostSchema:
+        post: Posts = await self.post_repository.get_post(post_id=post_id)
+
+        if not post:
+            raise PostNotFoundException
+        return PostSchema.model_validate(post)
