@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Sequence
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, delete
 
 from app.posts.models import Posts
 
@@ -23,3 +23,10 @@ class PostsRepository:
         async with self.db_session as session:
             post: Posts = (await session.execute(query)).scalar_one_or_none()
             return post
+
+    async def delete_memes(self, post_id: int) -> None:
+        query = delete(Posts).where(Posts.id == post_id)
+
+        async with self.db_session as session:
+            await session.execute(query)
+            await session.commit()
