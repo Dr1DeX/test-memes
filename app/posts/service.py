@@ -21,7 +21,9 @@ class PostsService:
 
         if not post:
             raise PostNotFoundException
-        return PostSchema.model_validate(post)
+
+        post_schema = PostSchema.model_validate(post)
+        return post_schema
 
     async def delete_post(self, post_id: int) -> str:
         await self.post_repository.delete_memes(post_id=post_id)
