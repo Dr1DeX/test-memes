@@ -9,6 +9,8 @@ class Settings(BaseSettings):
     DB_PASSWORD: str = 'password'
     DB_DRIVER: str = 'postgresql+asyncpg'
 
+    S3_URL: str = 'http://localhost:8002/files'
+
     @property
     def db_url(self):
         return f'{self.DB_DRIVER}://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}'
