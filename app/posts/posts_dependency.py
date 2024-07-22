@@ -2,6 +2,7 @@ from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.posts.infrastructure.database import get_db_session
+from app.posts.post_settings import Settings
 from app.posts.repository import PostsRepository
 from app.posts.service import PostsService
 
@@ -17,4 +18,5 @@ async def get_post_service(
 ) -> PostsService:
     return PostsService(
         post_repository=post_repository,
+        settings=Settings()
     )
