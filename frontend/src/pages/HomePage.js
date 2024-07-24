@@ -20,7 +20,7 @@ const HomePage = () => {
     };
 
     const handleDelete = async (id) => {
-        await api.delete(`/${id}`);
+        await api.delete(`http://localhost:8001/memes/${id}`);
         setPosts(posts.filter(post => post.id !== id));
     };
 
