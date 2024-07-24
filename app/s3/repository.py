@@ -1,10 +1,7 @@
 import io
 
-from fastapi import HTTPException, status
-
-from minio import Minio, S3Error
+from minio import Minio
 from dataclasses import dataclass
-from urllib.parse import urlparse, urlunparse, ParseResult
 
 from app.s3.s3_settings import settings
 
@@ -21,10 +18,9 @@ class S3Repository:
             length=len(file_data),
             content_type=content_type
         )
-        return self.get_image_url(file_name=file_name)
+        nginx_url = f'/{settings.MINIO_BUCKET_NAME}/{file_name}'
+        return self.get_image_url(file_name=nginx_url)
 
     def get_image_url(self, file_name: str) -> dict:
 
-        nginx_url = f'/{settings.MINIO_BUCKET_NAME}/{file_name}'
-
-        return {'image_url': nginx_url}
+        return {'image_url': file_name}

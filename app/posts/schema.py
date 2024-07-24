@@ -13,5 +13,5 @@ class PostSchema(BaseModel):
 
 
 class PostCreateSchema(BaseModel):
-    title: str
-    description: str
+    text: str
+    image_url: Optional[str] = None
