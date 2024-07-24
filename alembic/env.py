@@ -6,7 +6,8 @@ from alembic import context
 from sqlalchemy.ext.asyncio import create_async_engine
 
 from app.posts.infrastructure.database import Base
-from app.settings import settings
+from app.posts.post_settings import settings
+from app.posts.models import Posts
 
 
 config = context.config

@@ -7,8 +7,8 @@ from app.s3.repository import S3Repository
 class S3Service:
     s3_repository: S3Repository
 
-    async def upload_image(self, file_name: str, file_data: bytes, content_type: str) -> str:
-        return await self.s3_repository.upload_image(
+    def upload_image(self, file_name: str, file_data: bytes, content_type: str) -> str:
+        return self.s3_repository.upload_image(
             file_name=file_name,
             file_data=file_data,
             content_type=content_type

@@ -6,11 +6,13 @@ from app.posts.extension import PostNotFoundException
 from app.posts.post_settings import Settings
 from app.posts.schema import PostSchema
 from app.posts.repository import PostsRepository
+from app.s3.repository import S3Repository
 
 
 @dataclass
 class PostsService:
     post_repository: PostsRepository
+    s3_repository: S3Repository
     settings: Settings
 
     async def get_posts(self) -> list[PostSchema]:
@@ -19,7 +21,7 @@ class PostsService:
             PostSchema(
                 id=post.id,
                 text=post.text,
-                image_url=await self._get_image_url(filename=post.image_url)
+                image_url=self._get_image_url(filename=post.image_url)
             )
             for post in posts
         ]
@@ -39,8 +41,6 @@ class PostsService:
         message = f'Post id={post_id} delete success !'
         return message
 
-    async def _get_image_url(self, filename: str) -> str:
-        async with httpx.AsyncClient() as client:
-            response = await client.get(f'{self.settings.S3_URL}/{filename}')
-            response.raise_for_status()
-            return response.text
+    def _get_image_url(self, filename: str):
+        image_url: dict = self.s3_repository.get_image_url(file_name=filename)
+        return image_url['image_url']
