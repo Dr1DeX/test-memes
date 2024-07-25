@@ -22,9 +22,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install poetry flake8
         poetry install
+        source $HOME/.poetry/env
     - name: Test with flake8
       run: |
         flake8 app/
     - name: Unittests
       run: |
-        pytest tests
+        $HOME/.poetry/bin/pytest tests
