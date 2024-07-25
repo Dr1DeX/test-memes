@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Sequence
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, delete, insert
+from sqlalchemy import select, delete, insert, update
 
 from app.posts.models import Posts
 from app.posts.schema import PostCreateSchema
@@ -13,7 +13,6 @@ class PostsRepository:
     db_session: AsyncSession
 
     async def get_posts(self) -> Sequence[Posts]:
-
         async with self.db_session as session:
             posts: Sequence[Posts] = (await session.execute(select(Posts))).scalars().all()
             return posts
@@ -40,3 +39,13 @@ class PostsRepository:
             await session.commit()
             return post_id
 
+    async def update_post(self, post_id: int, body: PostCreateSchema) -> None:
+        query = (
+            update(Posts)
+            .where(Posts.id == post_id)
+            .values(**body.dict(exclude_none=True))
+        )
+
+        async with self.db_session as session:
+            await session.execute(query)
+            await session.commit()
