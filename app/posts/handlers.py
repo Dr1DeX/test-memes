@@ -1,6 +1,6 @@
 from typing import Annotated, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, status, Form, UploadFile, File
+from fastapi import APIRouter, Depends, HTTPException, status, Form, UploadFile, File, Query
 
 from app.posts.posts_dependency import get_post_service
 from app.posts.extension import PostNotFoundException
@@ -12,12 +12,15 @@ router = APIRouter(prefix='/api/v1/memes', tags=['/api/v1/memes'])
 
 @router.get(
     '',
-    response_model=list[PostSchema]
+    response_model=tuple[list[PostSchema], int]
 )
 async def get_posts(
-        post_service: Annotated[PostsService, Depends(get_post_service)]
+        post_service: Annotated[PostsService, Depends(get_post_service)],
+        page: int = Query(1, ge=1),
+        page_size: int = Query(5, ge=1)
 ):
-    return await post_service.get_posts()
+    posts, total_count_posts = await post_service.get_posts(page=page, page_size=page_size)
+    return posts, total_count_posts
 
 
 @router.get(
@@ -67,7 +70,6 @@ async def create_post(
         image_url = None
 
     post = PostCreateSchema(text=text, image_url=image_url)
-    print(post)
 
     return await post_service.create_post(post=post)
 

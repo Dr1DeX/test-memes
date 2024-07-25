@@ -13,7 +13,7 @@ class PostsService:
     s3_repository: S3Repository
     settings: Settings
 
-    async def get_posts(self) -> list[PostSchema]:
+    async def get_posts(self, page: int, page_size: int) -> tuple[list[PostSchema], int]:
         posts = await self.post_repository.get_posts()
         posts_schema = [
             PostSchema(
@@ -23,7 +23,8 @@ class PostsService:
             )
             for post in posts
         ]
-        return posts_schema
+        total_count_posts = len(posts)
+        return posts_schema[(page - 1) * page_size: page * page_size], total_count_posts
 
     async def get_post(self, post_id: int) -> PostSchema:
         post = await self.post_repository.get_post(post_id=post_id)
@@ -60,8 +61,6 @@ class PostsService:
     async def create_post(self, post: PostCreateSchema) -> PostSchema:
         post_id = await self.post_repository.create_post(post=post)
         post = await self.post_repository.get_post(post_id=post_id)
-
-        self.s3_repository.upload_image()
         post_schema = PostSchema(
             id=post.id,
             text=post.text,
