@@ -7,7 +7,12 @@ from app.s3.repository import S3Repository
 class S3Service:
     s3_repository: S3Repository
 
-    def upload_image(self, file_name: str, file_data: bytes, content_type: str) -> dict:
+    def upload_image(
+            self,
+            file_name: str,
+            file_data: bytes,
+            content_type: str
+    ) -> dict:
         return self.s3_repository.upload_image(
             file_name=file_name,
             file_data=file_data,
