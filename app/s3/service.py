@@ -16,3 +16,6 @@ class S3Service:
 
     def get_image_url(self, file_name: str) -> dict:
         return self.s3_repository.get_image_url(file_name=file_name)
+
+    def delete_image(self, file_name: str) -> None:
+        self.s3_repository.delete_image(file_name=file_name)

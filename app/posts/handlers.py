@@ -7,7 +7,7 @@ from app.posts.extension import PostNotFoundException
 from app.posts.schema import PostSchema, PostCreateSchema
 from app.posts.service import PostsService
 
-router = APIRouter(prefix='/memes', tags=['memes'])
+router = APIRouter(prefix='/api/v1/memes', tags=['/api/v1/memes'])
 
 
 @router.get(
@@ -70,3 +70,28 @@ async def create_post(
     print(post)
 
     return await post_service.create_post(post=post)
+
+
+@router.put(
+    '/{post_id}',
+    response_model=PostSchema
+)
+async def update_post(
+        post_service: Annotated[PostsService, Depends(get_post_service)],
+        post_id: int,
+        text: Annotated[str, Form(...)],
+        image: Optional[UploadFile] = File(None)
+):
+    if image:
+        image_data = await image.read()
+        image_url = post_service.upload_image(
+            file_name=image.filename,
+            file_data=image_data,
+            content_type=image.content_type
+        )
+    else:
+        image_url = None
+
+    body = PostCreateSchema(text=text, image_url=image_url)
+
+    return await post_service.update_post(post_id=post_id, body=body)

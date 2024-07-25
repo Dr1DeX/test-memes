@@ -16,7 +16,7 @@ const CreatePostPage = () => {
         }
 
         try {
-            const response = await api.post('/memes', formData, {
+            const response = await api.post('/api/v1/memes', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

@@ -35,7 +35,13 @@ class PostsService:
         return post_schema
 
     async def delete_post(self, post_id: int) -> str:
+        post = await self.post_repository.get_post(post_id=post_id)
+
+        if post.image_url:
+            self.s3_repository.delete_image(file_name=post.image_url)
+
         await self.post_repository.delete_memes(post_id=post_id)
+
         message = f'Post id={post_id} delete success !'
         return message
 
@@ -54,9 +60,16 @@ class PostsService:
     async def create_post(self, post: PostCreateSchema) -> PostSchema:
         post_id = await self.post_repository.create_post(post=post)
         post = await self.post_repository.get_post(post_id=post_id)
+
+        self.s3_repository.upload_image()
         post_schema = PostSchema(
             id=post.id,
             text=post.text,
             image_url=post.image_url
         )
         return post_schema
+
+    async def update_post(self, post_id: int, body: PostCreateSchema) -> PostSchema:
+        await self.post_repository.update_post(post_id=post_id, body=body)
+        updated_post = await self.post_repository.get_post(post_id=post_id)
+        return PostSchema.model_validate(updated_post)
