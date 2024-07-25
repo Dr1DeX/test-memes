@@ -67,8 +67,6 @@ services:
     volumes:
       - ./nginx/dev/nginx.conf:/etc/nginx/conf.d/default.conf
       - ./app/posts/openapi.json:/etc/nginx/html/posts/openapi.json
-      - ./app/s3/openapi.json:/etc/nginx/html/s3/openapi.json
-
     depends_on:
       - posts
     networks:

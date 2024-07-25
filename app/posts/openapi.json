@@ -5,24 +5,107 @@
     "version": "0.1.0"
   },
   "paths": {
-    "/memes": {
+    "/api/v1/memes": {
       "get": {
         "tags": [
-          "memes"
+          "/api/v1/memes"
         ],
         "summary": "Get Posts",
-        "operationId": "get_posts_memes_get",
+        "operationId": "get_posts_api_v1_memes_get",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 5,
+              "title": "Page Size"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/PostSchema"
-                  },
                   "type": "array",
-                  "title": "Response Get Posts Memes Get"
+                  "prefixItems": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PostSchema"
+                      }
+                    },
+                    {
+                      "type": "integer"
+                    }
+                  ],
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "title": "Response Get Posts Api V1 Memes Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "/api/v1/memes"
+        ],
+        "summary": "Create Post",
+        "operationId": "create_post_api_v1_memes_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_create_post_api_v1_memes_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostSchema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -30,13 +113,13 @@
         }
       }
     },
-    "/memes/{post_id}": {
+    "/api/v1/memes/{post_id}": {
       "get": {
         "tags": [
-          "memes"
+          "/api/v1/memes"
         ],
         "summary": "Get Post",
-        "operationId": "get_post_memes__post_id__get",
+        "operationId": "get_post_api_v1_memes__post_id__get",
         "parameters": [
           {
             "name": "post_id",
@@ -73,10 +156,10 @@
       },
       "delete": {
         "tags": [
-          "memes"
+          "/api/v1/memes"
         ],
         "summary": "Delete Post",
-        "operationId": "delete_post_memes__post_id__delete",
+        "operationId": "delete_post_api_v1_memes__post_id__delete",
         "parameters": [
           {
             "name": "post_id",
@@ -110,11 +193,111 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": [
+          "/api/v1/memes"
+        ],
+        "summary": "Update Post",
+        "operationId": "update_post_api_v1_memes__post_id__put",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Post Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_update_post_api_v1_memes__post_id__put"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostSchema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
   "components": {
     "schemas": {
+      "Body_create_post_api_v1_memes_post": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "image": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "binary"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "Body_create_post_api_v1_memes_post"
+      },
+      "Body_update_post_api_v1_memes__post_id__put": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "image": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "binary"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "Body_update_post_api_v1_memes__post_id__put"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -137,6 +320,17 @@
           "text": {
             "type": "string",
             "title": "Text"
+          },
+          "image_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Url"
           }
         },
         "type": "object",

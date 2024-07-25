@@ -47,7 +47,13 @@ async def delete_post(
         post_service: Annotated[PostsService, Depends(get_post_service)],
         post_id: int
 ):
-    return await post_service.delete_post(post_id=post_id)
+    try:
+        return await post_service.delete_post(post_id=post_id)
+    except PostNotFoundException as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=e.detail
+        )
 
 
 @router.post(
@@ -95,5 +101,10 @@ async def update_post(
         image_url = None
 
     body = PostCreateSchema(text=text, image_url=image_url)
-
-    return await post_service.update_post(post_id=post_id, body=body)
+    try:
+        return await post_service.update_post(post_id=post_id, body=body)
+    except PostNotFoundException as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=e.detail
+        )

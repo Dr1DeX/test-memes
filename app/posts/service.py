@@ -37,7 +37,8 @@ class PostsService:
 
     async def delete_post(self, post_id: int) -> str:
         post = await self.post_repository.get_post(post_id=post_id)
-
+        if not post:
+            raise PostNotFoundException
         if post.image_url:
             self.s3_repository.delete_image(file_name=post.image_url)
 
@@ -71,4 +72,7 @@ class PostsService:
     async def update_post(self, post_id: int, body: PostCreateSchema) -> PostSchema:
         await self.post_repository.update_post(post_id=post_id, body=body)
         updated_post = await self.post_repository.get_post(post_id=post_id)
+
+        if not updated_post:
+            raise PostNotFoundException
         return PostSchema.model_validate(updated_post)
