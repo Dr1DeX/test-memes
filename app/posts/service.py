@@ -13,7 +13,11 @@ class PostsService:
     s3_repository: S3Repository
     settings: Settings
 
-    async def get_posts(self, page: int, page_size: int) -> tuple[list[PostSchema], int]:
+    async def get_posts(
+            self,
+            page: int,
+            page_size: int
+    ) -> tuple[list[PostSchema], int]:
         posts = await self.post_repository.get_posts()
         posts_schema = [
             PostSchema(
@@ -24,7 +28,9 @@ class PostsService:
             for post in posts
         ]
         total_count_posts = len(posts)
-        return posts_schema[(page - 1) * page_size: page * page_size], total_count_posts
+        start_index = (page - 1) * page_size
+        end_index = page * page_size
+        return posts_schema[start_index:end_index], total_count_posts
 
     async def get_post(self, post_id: int) -> PostSchema:
         post = await self.post_repository.get_post(post_id=post_id)
@@ -48,10 +54,17 @@ class PostsService:
         return message
 
     def _get_image_url(self, filename: str):
-        image_url: dict = self.s3_repository.get_image_url(file_name=filename)
+        image_url: dict = self.s3_repository.get_image_url(
+            file_name=filename
+        )
         return image_url['image_url']
 
-    def upload_image(self, file_name: str, file_data: bytes, content_type: str) -> str:
+    def upload_image(
+            self,
+            file_name: str,
+            file_data: bytes,
+            content_type: str
+    ) -> str:
         result = self.s3_repository.upload_image(
             file_name=file_name,
             file_data=file_data,
@@ -64,7 +77,11 @@ class PostsService:
         post = await self.post_repository.get_post(post_id=post_id)
         return PostSchema.model_validate(post)
 
-    async def update_post(self, post_id: int, body: PostCreateSchema) -> PostSchema:
+    async def update_post(
+            self,
+            post_id: int,
+            body: PostCreateSchema
+    ) -> PostSchema:
         await self.post_repository.update_post(post_id=post_id, body=body)
         updated_post = await self.post_repository.get_post(post_id=post_id)
 

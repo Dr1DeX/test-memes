@@ -1,6 +1,14 @@
 from typing import Annotated, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, status, Form, UploadFile, File, Query
+from fastapi import (
+    APIRouter,
+    Depends,
+    HTTPException,
+    status,
+    Form,
+    UploadFile,
+    File, Query
+)
 
 from app.posts.posts_dependency import get_post_service
 from app.posts.extension import PostNotFoundException
@@ -19,7 +27,10 @@ async def get_posts(
         page: int = Query(1, ge=1),
         page_size: int = Query(5, ge=1)
 ):
-    posts, total_count_posts = await post_service.get_posts(page=page, page_size=page_size)
+    posts, total_count_posts = await post_service.get_posts(
+        page=page,
+        page_size=page_size
+    )
     return posts, total_count_posts
 
 

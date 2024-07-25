@@ -14,7 +14,9 @@ class PostsRepository:
 
     async def get_posts(self) -> Sequence[Posts]:
         async with self.db_session as session:
-            posts: Sequence[Posts] = (await session.execute(select(Posts))).scalars().all()
+            posts: Sequence[Posts] = (
+                await session.execute(select(Posts))
+            ).scalars().all()
             return posts
 
     async def get_post(self, post_id: int) -> Posts:
@@ -32,7 +34,10 @@ class PostsRepository:
             await session.commit()
 
     async def create_post(self, post: PostCreateSchema) -> int:
-        query = insert(Posts).values(**post.dict(exclude_none=True)).returning(Posts.id)
+        query = (insert(Posts)
+                 .values(**post.dict(exclude_none=True))
+                 .returning(Posts.id)
+                 )
 
         async with self.db_session as session:
             post_id: int = (await session.execute(query)).scalar_one_or_none()
