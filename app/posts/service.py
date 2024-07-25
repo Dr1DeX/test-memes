@@ -62,12 +62,7 @@ class PostsService:
     async def create_post(self, post: PostCreateSchema) -> PostSchema:
         post_id = await self.post_repository.create_post(post=post)
         post = await self.post_repository.get_post(post_id=post_id)
-        post_schema = PostSchema(
-            id=post.id,
-            text=post.text,
-            image_url=post.image_url
-        )
-        return post_schema
+        return PostSchema.model_validate(post)
 
     async def update_post(self, post_id: int, body: PostCreateSchema) -> PostSchema:
         await self.post_repository.update_post(post_id=post_id, body=body)
