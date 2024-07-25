@@ -3,11 +3,10 @@ name: CI for service Smeshnavka
 on:
   push:
     branches:
+      - '**'
       - main
-      - '*'
 
 jobs:
-
   tests:
     runs-on: ubuntu-20.04
     steps:
@@ -20,12 +19,11 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install poetry flake8
+        pip install poetry
         poetry install
-        source $HOME/.poetry/env
     - name: Test with flake8
       run: |
-        flake8 app/
+        python -m flake8 app/
     - name: Unittests
       run: |
-        $HOME/.poetry/bin/pytest tests
+        pytest tests
