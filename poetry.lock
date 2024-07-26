@@ -1105,6 +1105,21 @@ lingua = ["lingua"]
 testing = ["pytest"]
 
 [[package]]
+name = "markdown"
+version = "3.6"
+description = "Python implementation of John Gruber's Markdown."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "Markdown-3.6-py3-none-any.whl", hash = "sha256:48f276f4d8cfb8ce6527c8f79e2ee29708508bf4d40aa410fbc3b4ee832c850f"},
+    {file = "Markdown-3.6.tar.gz", hash = "sha256:ed4f41f6daecbeeb96e576ce414c41d2d876daa9a16cb35fa8ed8c2ddfad0224"},
+]
+
+[package.extras]
+docs = ["mdx-gh-links (>=0.2)", "mkdocs (>=1.5)", "mkdocs-gen-files", "mkdocs-literate-nav", "mkdocs-nature (>=0.6)", "mkdocs-section-index", "mkdocstrings[python]"]
+testing = ["coverage", "pyyaml"]
+
+[[package]]
 name = "markdown-it-py"
 version = "3.0.0"
 description = "Python port of markdown-it. Markdown parsing, done right!"
@@ -1334,6 +1349,17 @@ files = [
     {file = "multidict-6.0.5-cp39-cp39-win_amd64.whl", hash = "sha256:d6f6d4f185481c9669b9447bf9d9cf3b95a0e9df9d169bbc17e363b7d5487755"},
     {file = "multidict-6.0.5-py3-none-any.whl", hash = "sha256:0d63c74e3d7ab26de115c49bffc92cc77ed23395303d496eae515d4204a625e7"},
     {file = "multidict-6.0.5.tar.gz", hash = "sha256:f7e301075edaf50500f0b341543c41194d8df3ae5caf4702f2095f3ca73dd8da"},
+]
+
+[[package]]
+name = "openapi-generator-cli"
+version = "4.3.1"
+description = "CLI for openapi generator"
+optional = false
+python-versions = "*"
+files = [
+    {file = "openapi-generator-cli-4.3.1.tar.gz", hash = "sha256:b87f0aeac5b3c23e135253efc46bddc98c72f386b3b2e3df54324d78aa57fd13"},
+    {file = "openapi_generator_cli-4.3.1-py2.py3-none-any.whl", hash = "sha256:1c943f4692c2ae08b714a22347d5dd42b722d509fa30a098dca4b78ec59f75d5"},
 ]
 
 [[package]]
@@ -2001,6 +2027,20 @@ anyio = ">=3.4.0,<5"
 full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart (>=0.0.7)", "pyyaml"]
 
 [[package]]
+name = "swagger-markdown"
+version = "0.9.16"
+description = "A Python Markdown extension to include Swagger informations in your documentation"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "swagger-markdown-0.9.16.tar.gz", hash = "sha256:0413837a763a3aefe531688160fc4795788f479e4fec4b9c54f1ab428b5e7a04"},
+]
+
+[package.dependencies]
+markdown = "*"
+pyyaml = "*"
+
+[[package]]
 name = "twisted"
 version = "24.3.0"
 description = "An asynchronous networking framework written in Python"
@@ -2584,4 +2624,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "53a4e971b354ed6af876562f8040da0846cd19c87162a07832c18bebf4b7bf5e"
+content-hash = "e68c9939e481bf3ed4be1c69774a6269373b7b1f0cb020ce0b3bb3f9c939159e"
