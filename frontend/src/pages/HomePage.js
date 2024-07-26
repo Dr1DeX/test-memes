@@ -1,8 +1,8 @@
-import axios from "axios"
+import axios from "axios";
 import React, { useEffect, useState } from 'react';
 import api from '../api';
 import PostCard from '../components/PostCard';
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { Box, Pagination, Typography, CircularProgress } from "@mui/material";
 
 const HomePage = () => {
@@ -19,7 +19,7 @@ const HomePage = () => {
             try {
                 const response = await axios.get(`/api/v1/memes`, {
                     params: {
-                        page:page,
+                        page: page,
                         page_size: pageSize
                     }
                 });
@@ -35,10 +35,10 @@ const HomePage = () => {
     }, [page, pageSize]);
 
     const totalPages = Math.ceil(totalPosts / pageSize);
-    
+
     const handlePageChange = (event, newPage) => {
         setPage(newPage);
-    }
+    };
 
     const handleEdit = (id) => {
         navigate(`/edit-post/${id}`);
@@ -51,10 +51,14 @@ const HomePage = () => {
 
     return (
         <Box>
-            {posts.map((post) => (
-                <PostCard key={post.id} post={post} />
-            ))}
-            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2}}>
+            {isLoading ? (
+                <CircularProgress />
+            ) : (
+                posts.map((post) => (
+                    <PostCard key={post.id} post={post} onEdit={handleEdit} onDelete={handleDelete} />
+                ))
+            )}
+            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
                 <Pagination
                     count={totalPages}
                     page={page}
