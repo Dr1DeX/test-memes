@@ -7,7 +7,7 @@ const EditPostPage = () => {
   const { id } = useParams();
   const [post, setPost] = useState({ text: '', image_url: '' });
   const [image, setImage] = useState(null);
-  const [loading, setLoading] = useState(true); // Добавьте состояние загрузки
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,10 +15,10 @@ const EditPostPage = () => {
       try {
         const response = await axios.get(`/api/v1/memes/${id}`);
         setPost(response.data);
-        setLoading(false); // Установите состояние загрузки в false
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching post:', error);
-        setLoading(false); // Установите состояние загрузки в false
+        setLoading(false);
       }
     };
     fetchPost();
@@ -53,7 +53,7 @@ const EditPostPage = () => {
   };
 
   if (loading) {
-    return <CircularProgress />; // Отображение индикатора загрузки
+    return <CircularProgress />;
   }
 
   return (
