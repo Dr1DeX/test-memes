@@ -43,6 +43,8 @@ ____
 `docker-compose up -d --build`
 
 ___
+### 3) Загружаем тестовые данные
+`python load_data.py`
 ### После этого web-ui будет доступен по адресу `localhost`
 
 ![Frontend](assets/frontend.png)

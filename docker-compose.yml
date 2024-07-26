@@ -13,8 +13,6 @@ services:
       - memes_data:/var/lib/postgresql/data
     ports:
       - '5432:5432'
-    networks:
-      - s3-media
 
   minio:
     image: minio/minio:latest
@@ -28,8 +26,7 @@ services:
     volumes:
       - minio_data:/data
     restart: always
-    networks:
-      - s3-media
+
 
   frontend:
     hostname: frontend
@@ -40,25 +37,27 @@ services:
       - '3000:3000'
     depends_on:
       - posts
-    networks:
-      - s3-media
 
   posts:
     build:
       context: .
-      dockerfile: ./app/posts/Dockerfile
+      dockerfile: app/posts/Dockerfile
+    command: bash -c "poetry run alembic upgrade head && poetry run uvicorn app.posts.main:app --host 0.0.0.0 --port 8001"
     hostname: posts
     restart: always
     shm_size: 128mb
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/check_health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     ports:
       - "8001:8001"
     depends_on:
       - db
+      - minio
     env_file:
       - .env.dev
-    networks:
-      - s3-media
-
 
   nginx:
     image: nginx:latest
@@ -69,13 +68,6 @@ services:
       - ./app/posts/openapi.json:/etc/nginx/html/posts/openapi.json
     depends_on:
       - posts
-    networks:
-      - s3-media
-
-
-networks:
-  s3-media:
-    driver: bridge
 
 volumes:
   memes_data:
