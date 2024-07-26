@@ -1,4 +1,4 @@
-![CI status for Smeshnavka](https://github.com/Dr1DeX/test-memes/actions/workflows/main.yml/badge.sv)
+![CI status for Smeshnavka](https://github.com/Dr1DeX/test-memes/actions/workflows/main.yml/badge.svg)
 
 # Тестовове задание. Сервис Смешнявка
 
