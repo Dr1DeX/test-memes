@@ -13,3 +13,6 @@ run-post:
 build:
 	docker-compose down
 	docker-compose up -d --build
+
+remove:
+	poetry remove ${LIB}

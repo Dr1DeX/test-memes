@@ -69,7 +69,7 @@ async def delete_post(
 
 @router.post(
     '',
-    response_model=PostSchema
+    response_model=PostSchema,
 )
 async def create_post(
         post_service: Annotated[PostsService, Depends(get_post_service)],

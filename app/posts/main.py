@@ -20,3 +20,12 @@ app.add_middleware(
     allow_methods=['*'],
     allow_headers=['*']
 )
+
+
+@app.get(
+    '/check_health'
+)
+async def check_health():
+    return {
+        'message': 'Service already!'
+    }
