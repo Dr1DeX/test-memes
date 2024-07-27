@@ -35,7 +35,21 @@ ____
 `conda install poetry`
 ### Подтягиваем зависимости
 `poetry install`
-### 2) Разворачиваем в докере
+### 2) Устанавливаем переменные окружения
+#### Для удобства они уже установлены в `.env.dev`
+```
+DB_HOST=memes
+DB_PORT=5432
+DB_NAME=memes
+DB_USER=postgres
+DB_DRIVER=postgresql+asyncpg
+MINIO_ENDPOINT=minio:9000
+MINIO_ACCESS_KEY=minioadmin
+MINIO_SECRET_KEY=minioadmin
+MINIO_BUCKET_NAME=memes-images
+S3_URL=http://s3:8002/files
+```
+### 3) Разворачиваем в докере
 #### Можно использовать скрипт из `Makefile` или вручную прописать команду
 #### Makefile:
 `make build`
@@ -43,7 +57,7 @@ ____
 `docker-compose up -d --build`
 
 ___
-### 3) Загружаем тестовые данные
+### 4) Загружаем тестовые данные
 `python load_data.py`
 ### После этого web-ui будет доступен по адресу `localhost`
 
