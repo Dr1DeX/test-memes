@@ -1,9 +1,16 @@
 import React from "react";
 import { Card, CardContent, CardMedia, Typography, CardActions, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const PostCard = ({ post, onEdit, onDelete }) => {
+    const navigate = useNavigate();
+
+    const handleCardClick = () => {
+        navigate(`/memes/${post.id}`);
+    };
+    
     return (
-        <Card sx={{ maxWidth: 345, margin: '20px auto', display: 'flex', flexDirection: 'column' }}>
+        <Card sx={{ maxWidth: 345, margin: '20px auto', display: 'flex', flexDirection: 'column',cursor: 'pointer' }} onClick={handleCardClick}>
             {post.image_url && (
                 <CardMedia
                     component="img"

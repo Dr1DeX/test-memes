@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import CreatePostPage from './pages/CreatePostPage';
 import EditPostPage from './pages/PostEditPage';
+import PostDetail from './pages/PostDetailPage';
 
 const App = () => {
     return (
@@ -14,6 +15,7 @@ const App = () => {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/create-post" element={<CreatePostPage />} />
                 <Route path="/edit-post/:id" element={<EditPostPage />} />
+                <Route path="/memes/:id" element={<PostDetail />} />
             </Routes>
             <Footer />
         </Router>
