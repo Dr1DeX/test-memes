@@ -55,8 +55,15 @@ S3_URL=http://s3:8002/files
 `make build`
 #### Docker-compose:
 `docker-compose up -d --build`
-
 ___
+### Локальный запуск
+#### Если нужно развернуть приложение локально можно использовать скрипт из `Makefile` или прописать вручную
+#### Makefile
+`make run-post`
+#### Poetry
+`poetry run uvicorn app.main:app --host localhost --port 8001 --reload --env-file <env_name>`
+#### ENV_NAME - имя вашего файла, где храняться переменные окружения
+____
 ### 4) Загружаем тестовые данные
 `python load_data.py`
 ### После этого web-ui будет доступен по адресу `localhost`
