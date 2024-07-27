@@ -21,10 +21,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install poetry
         poetry install
-        poetry add --dev flake8  # Добавьте эту строку для установки flake8 через Poetry
+        poetry add --dev flake8
     - name: Test with flake8
       run: |
-        poetry run flake8 app/  # Запуск flake8 через Poetry
+        poetry run flake8 app/
     - name: Unittests
       run: |
-        poetry run pytest tests  # Запуск pytest через Poetry
+        poetry run pytest tests
